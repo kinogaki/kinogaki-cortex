@@ -73,7 +73,7 @@ there.
 
 ## The experiments
 
-In order, A through AK. "Verdict" is the honest call, negatives included. Each row
+In order, A through BM. "Verdict" is the honest call, negatives included. Each row
 links to its narrated blog post and its code folder. The full lineage — why each
 experiment grew from an earlier one — is in
 [research/PROVENANCE.md](research/PROVENANCE.md).
@@ -124,6 +124,26 @@ experiment grew from an earlier one — is in
 | Exp AQ | Writing it down | 2026-06-26 | negative, with a principle — at EQUAL memory budget a bounded-internal + external store does NOT beat one bigger internal table (evidence fragmentation); it wins only in the cost-asymmetric regime (cheap/big external → −0.23 bpc). Externalizing is a COST ARBITRAGE (page cheaper than skull), not a better use of the same bytes | [link](https://cortex.kinogaki.com/blog/writing-it-down/) | [experiments/writing-it-down](experiments/writing-it-down) |
 | Exp AR | Where forgetting's shape finally pays | 2026-06-26 | win (the parked resurrection from AI) — power-law (ACT-R) eviction BEATS LFU at the word level under non-stationarity + a tight budget (cap 10k −0.008, 30k −0.006 bpw; LFU re-wins once the cap is loose) — the sign flipped from AI's char-gram result, exactly as AI predicted; wins by serving the present, not protecting the past | [link](https://cortex.kinogaki.com/blog/forgetting-at-the-word-level/) | [experiments/forgetting-at-the-word-level](experiments/forgetting-at-the-word-level) |
 | Exp AS | What survives a budget | 2026-06-26 | **theory update** · the bounded-memory rule's prediction CONFIRMED — mechanisms that vanish at unbounded scale RETURN under a memory budget. Consolidation flips −0.006 (unbounded) → +0.144 → +0.307 bpc as the cap tightens (a CURVE; vanishes when budget stops binding). Lossless generalization (consolidation) wins broadly; lossy (concepts) only as tight as the budget forces; topic-prior stays neutral | [link](https://cortex.kinogaki.com/blog/what-survives-a-budget/) | [experiments/what-survives-a-budget](experiments/what-survives-a-budget) |
+| Exp AT | The harness substrate | 2026-06-26 | foundation (not a result) — builds + checks the reactive read-speak-hear-learn loop (Codec / Environment / Agent / run) that turns the offline predictor into a speaker living in a world its own output shapes; the encoding-agnostic shell every acquisition experiment below runs on; generation/comprehension quality deferred | — | [experiments/harness-substrate](experiments/harness-substrate) |
+| Exp AU | Chunk lexicon with sub-unit interference | 2026-06-26 | partial — the Isbilen splice signature reproduces (committing a whole chunk decays its internal transitions, count-native) and boundary F1 lands, but the chunk-completion agent loses held-out bpc by +0.20 to the backoff n-gram (it replaced rather than joined the vote — fixed in BK) | — | [experiments/chunk-lexicon](experiments/chunk-lexicon) |
+| Exp AV | Cross-situational word→referent learning | 2026-06-26 | win — the true word→referent map survives across ambiguous scenes with no single disambiguating trial; built both DenseAssoc (PMI competition ≈ mutual exclusivity) and propose-but-verify (one slot/word) and let behaviour pick — the count-native first grounding of meaning | — | [experiments/cross-situational](experiments/cross-situational) |
+| Exp AW | Streaming-association slot strength (ΔP / PPMI) | 2026-06-26 | partial — swapping AF's raw commitment ratio for base-rate-discounted association (ΔP/PPMI, four marginals) WINS held-out perplexity (open-slot 6357 vs 6403) and prunes the slot table, but only cuts over-generation 11.4% vs the 39.5% bar | — | [experiments/association-slots](experiments/association-slots) |
+| Exp AX | Function-word anchor voter | 2026-06-26 | negative (clean) — the anchor cue is mathematically redundant with the AF frame voter: identical count table masked to a frequency band, argmax matches to 16 digits, +0.000 POS-purity at every band; AJ ignores the dead cue so nothing degrades, but it contributes nothing | — | [experiments/function-word-anchor](experiments/function-word-anchor) |
+| Exp AY | Comprehension-before-production gate | 2026-06-26 | win — one leaky binding-count read at two operating points (low recognition / high argmax+truth) reproduces the developmental C>P lag with no lag designed in, and the gap widens for high-fan words (many forms competing for one context) | — | [experiments/comprehension-production-gate](experiments/comprehension-production-gate) |
+| Exp AZ | Head-final boundary drift | 2026-06-26 | win — reliability-gated boundary detectors (forward/backward TP-dip, branching-entropy) combined by take-the-best show the predicted backward−forward reliability drift rising head-initial→head-final on a frequency-matched mirror pair; backward-TP wins outright at head-final under noise | — | [experiments/head-final-drift](experiments/head-final-drift) |
+| Exp BA | Dual-route inflection (words-and-rules) | 2026-06-26 | win — two reads of ONE leaky counter (memory route + productive +ed default) fused by one take-the-best gate produce the over-regularization U per verb — never designed in, never synchronized — exactly when a not-yet-entrenched irregular's leaky f·c is overtaken by the maturing default; one gate slides Pinker↔Rumelhart | — | [experiments/dual-route-inflection](experiments/dual-route-inflection) |
+| Exp BB | Variation-set minimal-pair miner | 2026-06-26 | win (syntax axis) — LCS-aligning adjacent utterances in a bounded ring isolates (frame, filler) minimal pairs the input itself supplies; folds extra construction counts (+1.8% comp-gen ppl) and a new boundary source (diff F1 0.877, combined 0.951 vs 0.734); stays quiet on natural text8 (negative control passes) | — | [experiments/variation-sets](experiments/variation-sets) |
+| Exp BC | Rescorla-Wagner recovery without feedback | 2026-06-26 | win — treating a stem as a cue and its forms as competing outcomes, RW decrements the over-applied form whenever the correct one is heard, so the model recovers from over-regularization with NO correction signal — where a pure counter (absolute count never falls) cannot | — | [experiments/rescorla-wagner-recovery](experiments/rescorla-wagner-recovery) |
+| Exp BD | Coverage-competition production | 2026-06-26 | partial — the construction producer is measurably more well-formed and less over-generating than the flat sampler on a non-circular held-out oracle (+18.5 pts well-formed, −28.5% over-generation; primary kill did not fire), but the merged Levelt frame-survival sub-claim falls short at 61% vs the 80–95% target (fixed in BL) | — | [experiments/coverage-competition-production](experiments/coverage-competition-production) |
+| Exp BE | Contingency-gated learning rate | 2026-06-26 | win — Goldstein-Schwade contingency as a dial: weighting each count increment by recency-of-the-agent's-own-turn (warm vs cold registers) beats the yoked control (same tokens, scrambled timing) on held-out bpc and turn-overlap; structure-not-timing isolated | — | [experiments/contingency-learning](experiments/contingency-learning) |
+| Exp BF | Margin-gated production | 2026-06-26 | win — production is comprehension read backwards through ONE count table: a margin gate (activation top / 2nd ≥ θ) makes argmax production more precise at matched recall and reproduces a C>P gap that appears and shrinks with evidence; fan+AB earn their keep | — | [experiments/margin-gated-production](experiments/margin-gated-production) |
+| Exp BG | Prioritized spindle replay | 2026-06-26 | win — spending the bounded offline replay budget ∝ 1/count (protect the rare tail) or ∝ surprise beats AA's uniform replay on rare-context bpc at equal budget without harming common; sleep that reinstates the weak, recent, surprising | — | [experiments/prioritized-replay](experiments/prioritized-replay) |
+| Exp BH | Grammaticality (minimal-pair) probe | 2026-06-26 | win + ablation — puts the existing char vote on the field's grammar axis (minimal-pair accuracy, read-side only, eval never learns): the count band beats the bigram on a hand-built in-vocabulary BLiMP analogue, and the impossible-language ablation shows natural-order English acquires more easily than a position-scrambled twin of equal bytes (the counter's locality bias) | — | [experiments/grammaticality-probe](experiments/grammaticality-probe) |
+| Exp BI | The Goldilocks learning-rate gate | 2026-06-26 | negative — making write-weight an inverted-U on the model's own surprisal does NOT lower bpc at equal table size; at every cap the no-gate flat floor wins (+0.07/+0.05 worse), and the naive monotone surprise-gate is worse still — a count learner has nothing for desirable-difficulty gating to rescue | — | [experiments/goldilocks-gate](experiments/goldilocks-gate) |
+| Exp BJ | Structure-graded recursion exposure | 2026-06-26 | the recursion-only axis AK left untouched — order a center-embedded agreement stream by embedding depth and self-gate admitting depth d+1 on the agent's own branching-entropy stabilizing (teacher-free); tests whether a structural curriculum wins where AK's memory-budget curriculum tied | — | [experiments/recursion-curriculum](experiments/recursion-curriculum) |
+| Exp BK | Chunk-as-expert in the pool | 2026-06-26 | win (closes AU's gap) — adding AU's chunk-completion distribution as ONE expert in the calibrated geometric-mean vote (never replacing the backoff) recovers the +0.20 bpc AU lost while preserving the splice win; the parser and the predictor are allies, not rivals | — | [experiments/chunk-as-expert](experiments/chunk-as-expert) |
+| Exp BL | Pushing frame-survival past 61% | 2026-06-26 | win — an improved Levelt formulator (framegen) lifts BD's frame-survival 61%→87.5% (+26.1 pts, clears the 80% bar) without wrecking BD's winning axis (well-formedness 53.5%→80.3%); confirms BD's diagnosis — it was a retrieval/selection slip, not a grammar error | — | [experiments/frame-survival](experiments/frame-survival) |
+| Exp BM | Live reactive loop | 2026-06-26 | win on the fallback, live run BLOCKED-ON-CREDENTIALS — BE's contingency-ON still beats the scrambled-timing yoked ablation inside a real reactive interlocutor; the live partner path is fully wired but ran on a scripted responder because no API key was present (no model call made) | — | [experiments/live-loop](experiments/live-loop) |
 
 ## Cross-cutting threads
 
@@ -142,6 +162,27 @@ experiment grew from an earlier one — is in
 See [research/PROVENANCE.md](research/PROVENANCE.md) for the full edge-by-edge
 lineage, and [research/LAB_NOTEBOOK.md](research/LAB_NOTEBOOK.md) for the running
 log.
+
+## Research libraries
+
+The offline spine (A→AS) only ever *read* and *scored* a corpus. The harness (AT)
+let the cortex *speak* and a world *reply*; the AU→BM round then taught it to
+**acquire** and **produce** language inside that loop. Two distilled, cited,
+build-queued knowledge bases carry that move — every mechanism count-native, tied to
+a standing rule and a real experiment, honest about the open debates:
+
+- **[research/acquisition](research/acquisition/)** — the language-acquisition
+  library: how a reader's counts come to exist. Chunk lexicons, cross-situational
+  grounding, frame/anchor categories, association-based constructions, the
+  comprehension-before-production gate, variation sets, the boundary-drift typology
+  ([SCIENCE](research/acquisition/SCIENCE.md), [MECHANISMS](research/acquisition/MECHANISMS.md),
+  [CURRICULUM](research/acquisition/CURRICULUM.md), [BUILD_QUEUE](research/acquisition/BUILD_QUEUE.md),
+  [READING](research/acquisition/READING.md)).
+- **[research/production](research/production/)** — the production library: what
+  turns a reader into a **speaker who means it** — a token emitted for its effect on
+  a listener, not its fidelity to the input. Coverage-competition, margin gating,
+  the Levelt formulator, contingency, the live reactive loop
+  ([SCIENCE](research/production/SCIENCE.md), [MECHANISMS](research/production/MECHANISMS.md)).
 
 ## Scaling studies
 

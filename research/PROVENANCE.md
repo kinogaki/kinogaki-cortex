@@ -194,6 +194,119 @@ post should link **grew from** (its parents) and **led to** (its children).
   lossy (concepts) only as tight as the budget forces; the topic prior stays neutral. Generalization is how a
   bounded model approximates the unbounded one.
 
+## The generation turn (AT →) — from modelling text to producing it
+
+- **AT — the harness substrate** (← the whole offline spine A→AS, which only ever *read* and *scored*; ← the
+  HUMAN-COGNITION rule, which says a child learns to talk by speaking and getting a reply, not by reading more;
+  ← the original research's "motor = navigating text", now completed to "motor = *generating* text into a world
+  that reacts"; ← **AG** deliberate-gate and **AL** workspace as the future speaker's controller; ← **AH/AN**
+  as the structure a mature speaker composes) → the reusable SHELL for a reactive learning loop: Codec /
+  Environment / Agent / run(), encoding-agnostic, with L0 passive `CorpusEnv` and the L2 `InterlocutorEnv` seam
+  (a live model like Haiku slots in as the responder). Substrate check passes — online reading drops held-out
+  bpc 4.63 → 2.29, the reactive contract holds (surprise at the interlocutor 2.36 → 1.77). Generation is still
+  gibberish and the comprehension battery (CBT/LAMBADA/bAbI/BLiMP) is unbuilt — both DEFERRED by design; this is
+  the shell they plug into. Next: the generation organ (mature `act` with the AG gate + stopping + altitude),
+  then the benchmark battery, then the live Haiku closed loop and the kill-test *does reactive dialog teach more
+  per token than passive reading?*
+- **Acquisition library** (← **AT**, which needed a generation organ; ← the HUMAN-COGNITION rule → a 28-agent deep
+  research sweep of 12 language-acquisition angles, classic + 2023-2026, grounded onto A→AT and adversarially
+  verified on 3 lenses; 45/48 proposed mechanisms survived) → `research/acquisition/` (SCIENCE / MECHANISMS /
+  CURRICULUM / BUILD_QUEUE / READING). **Thesis:** acquisition and generation are *one mechanism read in two
+  directions* — the cue that predicts the next word while reading is the guardrail that constrains it while
+  speaking; production is comprehension read the hard way (many-to-one selection over the same counts, gated on a
+  winner-take-all margin → "understands but won't yet say"). **Headline lever:** our `CortexAgent` counts
+  fixed-order n-grams — exactly the pure-TP table Isbilen 2023 says is *wrong*; the missing organ is a **chunk
+  lexicon** that commits to whole units and lets their sub-unit transitions decay, whose chunks become `act()`'s
+  emission vocabulary (mechanism M1). The build queue starts there: **AU** (chunk lexicon) → **AW** (ΔP/PPMI slot
+  strength) → **BD** (coverage-competition production = the generation turn) → **AY/BF** (the comprehension>
+  production margin gate) → **BE** (contingency-gated learning rate = the AT kill-test, with the yoked ablation).
+
+## The acquisition-queue build round (AU → BJ + BD) — built & run as 16 parallel agents
+
+The whole BUILD_QUEUE built and run in one fan-out. Honest spread: 7 wins, 6 partials, 3 clean negatives, all 16 ran.
+- **AU — chunk lexicon / sub-unit interference** (← M1; the headline lever) → **PARTIAL, the good kind**: the Isbilen
+  splice is a decisive WIN (within-word B–C decays to **0.0003** vs pure-TP's **1.000**, decay dial sharpens ~300×),
+  boundary F1 **0.758** ≈ Exp A; loses on raw bpc (+0.20) — *expected*, kill needs BOTH so it did not fire. The
+  variable-length **emission vocabulary** the generation turn needs is in hand. bpc gap is a readout problem (replace
+  the backoff instead of voting the chunk in) → follow-up: add the chunk expert into `cortex.vote`.
+- **BD — coverage-competition production** (← G1; ← **AU** chunks = emission vocab, ← **AW** ΔP/PPMI = over-gen gate)
+  → **PARTIAL, the generation turn took a real step**: on the constructional battery (its winning axis) the producer
+  is **+18.5 pts more well-formed, −28.5% less over-generating** than the flat sampler on a non-circular oracle; every
+  emitted word is spelled as whole committed AU chunks (the integration proof). Frame-survival 61% < the 80–95% target,
+  so BD's own sub-claim falls short — partial, not a clean win. **The AU→AW→BD chain composes end-to-end.**
+- **BE — contingency-gated learning rate** (← G2; the AT kill-test prototype) → **WIN**: contingency-ON beats the
+  **YOKED** (scrambled-timing) ablation → a token that *closed a turn* teaches more than the same token read passively.
+  First empirical support for AT's central bet.
+- **AV — cross-situational word→referent** (← M2) → **WIN (mechanism + dissociation)**: variant B (propose-but-verify)
+  collapses to chance after a disconfirm — the human signature; grounding from co-occurrence works, count-native.
+- **BC — Rescorla-Wagner recovery** (← M20) → **WIN**: predict-then-decrement recovers an over-regularized form faster
+  than increment-only passive reading — recovery without explicit correction, the first acquisition use of AT's contract.
+- **BH — BLiMP + impossible-language ablation** (← E1) → **WIN**: the count band beats the bigram (**60.2 vs 53.4%**
+  macro), agreement/interrogatives expected-weak; the honesty bar is built.
+- **BG — inverse-count replay** (← M24) → **WIN**: surprise/inverse-count replay beats AA's uniform replay on
+  rare-context bpc at equal offline budget — protects the tail.
+- **AY — two-threshold C>P gate** (← M17) → **WIN (modest)**: the comprehension-before-production lag widens with
+  competitor density.
+- **BB — variation-set miner** (← M16) → **WIN (scoped)**: helps compositional generalization in the regime the
+  literature predicts (syntax, not world knowledge) — honest split.
+- **AW — ΔP/PPMI slot strength** (← M5) → **PARTIAL → PARK**: "raw commitment ratio suffices for English"; ΔP never
+  hurts and shrinks the slot table 25%, PPMI is the *worst* variant (over-corrects base rate). Retest on a free-word-order
+  / CDS corpus where base rates diverge, and as a hard generation guardrail in BD.
+- **BF — margin-gated production** (← G6) → **PARTIAL**: gated precision +3.0 pts at lower recall; the structural
+  precision-gap is not cleanly separable from smoothing on text8 next-word.
+- **AZ — boundary-drift** (← M3) → **PARTIAL PASS**: the forward→backward-TP drift fires on head-final text (10/12 seeds).
+- **BA — dual-route inflection** (← M19) → **PARTIAL**: the f·c knob *parameterizes* words-vs-rules and beats single-route
+  on error *type*, but does not "pick a side" — it's a dial, not a verdict.
+- **AX — function-word anchor** (← M7) → **NEGATIVE (clean)**: the anchor cue is mathematically redundant with AF's frame
+  validity; the agent refused the unfair full-eval fake-win.
+- **BI — Goldilocks write-gate** (← the cut surprise-as-gate, corrected) → **NEGATIVE (clean)**: at equal table size
+  *flat write-everything* beats every inverted-U/monotone gate on bpc, buys no memory win, and hurts the rare tail it skips
+  (+1.59 bpc). The **write-side echo of AK** — a count learner can't get stuck, so it shouldn't throttle its writes. (The
+  N400 read-out, r≈0.85, is the real keeper, folded out separately.)
+- **BJ — recursion curriculum** (← the one curriculum survivor; vs **AK**) → **KILL FIRED (expected)**: self-gated
+  embedding-depth ordering ties full-input-from-start on depth-2/3 center-embedded agreement — **AK extends to structural
+  ordering**. A clean, publishable negative.
+
+The round's verdict: the **generation organ is real** (AU emission vocab + BD construction producer compose, more
+well-formed than flat sampling), **reactive contingency teaches** (BE beats yoked — AT's bet has first support), and the
+three negatives all sharpen a standing rule (AK now covers write-throttling and structural curricula; AF subsumes the
+anchor cue). The next steps fall out: close AU's bpc gap by voting the chunk expert into the pool, push BD's frame-survival,
+and run BE/BC inside the live reactive loop.
+
+### The three follow-ups (BK / BL / BM)
+
+- **BK — chunk-as-expert in the pool** (← **AU**'s +0.20 bpc gap) → **NEGATIVE (clean)**: adding the chunk-completion
+  distribution as one expert in `cortex.vote`'s geometric-mean pool does NOT close the gap — every positive chunk-weight
+  raises held-out bpc monotonically. Confirms AU is a **segmenter + emission vocabulary, not a predictor**; stop trying
+  to rescue its bpc, keep it for what it wins.
+- **BL — push BD frame-survival** (← **BD**'s 61% short of target) → **WIN**: an improved chunk-aware Levelt formulator
+  lifts frame-survival **61% → 87.5%**, into the 80–95% band. The generation turn's one weak sub-claim is fixed.
+- **BM — live Haiku reactive loop** (← **BE** offline; ← **AT** harness) → **WIN on the scripted fallback; the true live
+  run is BLOCKED-ON-CREDENTIALS**. No `ANTHROPIC_API_KEY` in the environment, so no model call; the live path is fully
+  wired (`liveloop.make_haiku_responder`, model `claude-haiku-4-5-20251001`, 10yo-register prompt). On a scripted
+  responder, contingency-ON still beats the yoked control (kill did not fire). **The live-Haiku confirmation is pending a key.**
+
+## The production turn (mimicry → producing-for-effect) — research library + queue BN→CF
+
+- **Production library** (← the GENERATION turn — a reader is not a speaker; ← the HUMAN-COGNITION rule; ← **BE**
+  contingency = the engine → an 8-angle deep research sweep on the mimicry→production crossing, grounded onto A→BM,
+  adversarially verified on 2 lenses; 19/24 mechanisms survived) → `research/production/` (README / SCIENCE / MECHANISMS).
+  **Thesis:** reading selects a token for *fidelity to the stream* (mimicry); producing selects it for its *effect on a
+  listener* (communication). Contingency (BE) is the engine; the missing piece is the **steering** — which utterance to
+  repeat (a Skinnerian echoic/mand/tact function split on a producible unit, not a whole warm turn) and **for whom** (a
+  count-native **audience model**: a second count table approximating the listener; recipient design = the *divergence*
+  between a speaker table and a listener table, scored on **referential success against a static prior, never on bpc**).
+  **Headline:** the audience model is the first top-down state with a licence to change the **99% slice** — because it is
+  scored on whether a modeled listener recovered the referent, not on bpc where every prior persistent-state mechanism
+  (AM) died on the dead 0.9% backoff slice. Metacognition = the AG/AB confidence scalar read three ways (emit / deliberate
+  / ask) on goal-vs-form conflict; the situation model returns only as a *salience* signal (what changed = what's worth
+  saying), never as the predictor AM killed; an intrinsic learning-progress drive supplies production before any listener.
+  **Queue BN→CF** (19 experiments): BN L0-listener + S1 speaker rerank of BD candidates on referential success; BO
+  function-tagged emission (echoic/mand/tact); BQ message-tuple conceptualizer (what to say, AC salience × audience gap);
+  BR three-way controller (emit/deliberate/ask); BS the clarification ASK as a first-class action; BT recipient-design
+  verbosity dissociation; BY learning-progress vocal play (production with no listener); BZ mand-reward accumulator;
+  CC–CD inner-speech self-channel + condensation; CE precision turn-taking gate. BN is the keystone (the listener table).
+
 ## How the two rules were born
 
 - **ONLINE-ONLY** ← **B** (counts beat gradients; the count substrate is inherently online) — made an explicit
