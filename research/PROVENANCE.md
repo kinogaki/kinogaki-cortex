@@ -142,6 +142,58 @@ post should link **grew from** (its parents) and **led to** (its children).
   learning — a count learner can't get stuck, so no curriculum is needed, only enough final memory. ZPD overlay
   hurts (−5.8%). The bounded-memory rule stands; scheduling it is a no-op.
 
+## The budget-binding-reasoning round (AL → AS)
+
+- **AL — the multi-step workspace** (← **AG** the parked serial workspace, here given the multi-step task it was
+  built for; ← **AH** the redescribed slot-concepts it chains; ← **AD** the count-relation it applies twice) → the
+  workspace REACHES a 2-hop target (acc 1.00) where System 1 and one-step deferral score 0.00 (trapped on the
+  intermediate) — reachability is real and new. Honest negative #2: on a single deterministic chain it ties a blind
+  "apply-twice"; the focus/IOR machinery is for SELECTING among competing chains, which this probe lacks. Parked
+  again, sharper reason; next axis named — competing candidate chains.
+- **AM — the situation model** (← **AC** the event model + 1%-backoff law; ← **T** ignition, the same line for a
+  global topic; ← **U** JEPA categories that stand in for events; ideas ← Chambers & Jurafsky narrative event
+  chains, Zwaan event-indexing) → a persistent who/where/topic situation model does NOT predict over long spans.
+  The +0.55 bpw "everywhere" win is pure smoothing repair — a STATIC frozen unigram beats the live situation by
+  −0.07 bpw on the 99% non-backoff slice; the situation helps only the same 0.9% backoff slice (third mechanism to
+  land there). Coherence will not yield to stacked state. Methodological law: measure a top-down prior against a
+  STATIC prior, never against no prior.
+- **AN — VSA / resonator decode** (← **AD** the analogy-in-counts reasoning probe; ← **Z** the sim-hybrid map; ←
+  **AH** which supplies the slots this reads; ideas ← Plate HRR, Kanerva HDC, Frady/Kent/Olshausen/Sommer resonator
+  networks) → role-filler decode WITH known roles = 100% (robust to 8 bound pairs, even D=512): compositional
+  reading solved when structure is supplied. The blind RESONATOR (factor a product with unknown roles) FAILS at
+  affordable dimension (≈0% all-F over a 4000 codebook at D ≤ 2048 — the capacity wall). Payoff: VSA-decode works
+  GIVEN structure (AH supplies, AL manipulates) — don't factor blindly. Analogy probe not recovered (follow-up).
+- **AO — cue-based retrieval** (← **S** offset-attention, whose *position* key this generalises to a *feature* key
+  weighted by *fan*; ideas ← Lewis & Vasishth cue-based retrieval, Jaeger/Engelmann/Vasishth interference,
+  Anderson fan effect) → content-addressable cue retrieval binds long-distance subject–verb agreement to a
+  correct-number antecedent 99.96% vs offset-attention's 65.26% (a wall past its modal offset), and reproduces the
+  human agreement-attraction interference (0.00% → 2.11% only with a recent opposite-number distractor; the fan
+  divides activation). New primitive: long-distance binding by content cue + fan.
+- **AP — permutation-bound n-grams + FlyHash** (← **M** phrase boundaries + the phrase-sparsity problem; ← **AF**
+  the constructions whose sparsity this addresses; ← the VSA mining of AN; ideas ← Kanerva HDC, Dasgupta/Stevens/
+  Navlakha FlyHash) → similar phrases pool counts (beats floored literal on 67% of unseen-phrase probes) AND
+  preserve order (×2.29 under scramble vs the bag's ×1.00), but FlyHash crosstalk loses the tail (aggregate ppl
+  1206 vs literal 831; poor exact memory 423 vs 2.2). Fix: use as a backoff layer under the literal table.
+- **AQ — environment-as-memory** (← the bounded-memory rule; ← **AE** evict-the-tail and ← **AA** consolidate-the-
+  head, the two prior coping routes this completes with externalize; idea ← Ericsson & Kintsch long-term working
+  memory) → at EQUAL memory budget a bounded-internal + external store does NOT beat one bigger internal table
+  (evidence fragmentation: the confident-internal path answers from the internal fragment alone); it wins only in
+  the cost-asymmetric regime (cheap/big external → −0.23 bpc). Externalizing is a COST ARBITRAGE, not a better use
+  of the same bytes.
+- **AR — power-law memory at the word level** (← **AI** the char-gram negative + its explicit prediction; ← **AE**
+  backward-retention-under-register-shift; idea ← Anderson & Schooler environmental power law) → the parked
+  resurrection from AI: power-law (ACT-R) eviction BEATS LFU at the word level under non-stationarity + a tight
+  budget (cap 10k −0.008, 30k −0.006 bpw; LFU re-wins once loose) — the sign FLIPPED from AI's char-gram result,
+  exactly as AI predicted. Wins by serving the present, not protecting the past (LFU forgets the stale register
+  *less* but predicts the live registers worse).
+- **AS — what survives a budget** (← **what-survives-scale**, the unbounded capstone whose open twist this tests;
+  ← **AA** consolidation and ← **AF/C** concepts and ← **T** ignition, the three "vanished" mechanisms re-run under
+  a cap; ← the bounded-memory rule) → the bounded-memory rule's prediction CONFIRMED: mechanisms that vanish at
+  unbounded scale RETURN under a budget. Consolidation flips −0.006 (unbounded) → +0.144 → +0.307 bpc as the cap
+  tightens (a CURVE; vanishes when the budget stops binding). Lossless generalization (consolidation) wins broadly;
+  lossy (concepts) only as tight as the budget forces; the topic prior stays neutral. Generalization is how a
+  bounded model approximates the unbounded one.
+
 ## How the two rules were born
 
 - **ONLINE-ONLY** ← **B** (counts beat gradients; the count substrate is inherently online) — made an explicit
@@ -153,25 +205,41 @@ post should link **grew from** (its parents) and **led to** (its children).
 
 - **Surprise / robustness**: A → M → V → R → Y (one signal: boundaries, attention, learning, and leaning on the
   idea when the surface fails).
-- **The right combiner**: D → I → S → X → AB → AD → AF → AJ (product/geometric-mean pooling, then calibrated/weighted
-  by the NARS truth value AB; AF's open-slot head pours frame-preference into the category lexicon; AJ finally
-  answers the sharpening question — validity-ordered take-the-best beats full pooling on every axis by *ignoring*
-  the weak cues, not blurring).
-- **System 2 (new)**: AB → X → AG, with AH supplying the operands (AB asks *is the fast answer calibrated?*; X is
-  the gate routing to a higher level; AG is the metacognitive gate that deploys a deliberate pass overriding
-  System 1 only when wrong; AH redescribes implicit counts into the explicit, manipulable concepts the workspace
-  deliberates over). Open frontier: the multi-step task (→ AC discourse, AD compositional reasoning) where the
-  parked serial workspace must earn its keep.
+- **The right combiner**: D → I → S → X → AB → AD → AF → AJ → AO (product/geometric-mean pooling, then
+  calibrated/weighted by the NARS truth value AB; AF's open-slot head pours frame-preference into the category
+  lexicon; AJ answers the sharpening question — validity-ordered take-the-best beats full pooling by *ignoring* the
+  weak cues; AO generalises S's *position* key to a *feature* key weighted by *fan* — reaching back by the right cue
+  is a strictly better long-distance combiner than reaching back by a fixed offset).
+- **Long-distance binding (new)**: S → AO (offset-attention's fixed position key reaches a fixed window and decays
+  with distance; AO replaces it with content-addressable cue retrieval — feature bundle + fan — binding a verb to
+  its correct-number subject across a clause 99.96% vs 65%, and reproducing the human agreement-attraction
+  interference because activation divides by the fan).
+- **System 2 / the reasoning route (new)**: AB → X → AG, with AH supplying the operands, AN reading them, AL moving
+  them (AB asks *is the fast answer calibrated?*; X is the gate routing higher; AG is the metacognitive gate that
+  overrides System 1 only when wrong; AH redescribes implicit counts into explicit, manipulable concepts; AN's
+  VSA-decode reads role-filler structure back out of a sum *given* the slots — 100%, but the blind resonator fails,
+  so don't factor blindly; AL's serial workspace manipulates those bundles and reaches a multi-hop target one-step
+  deferral can't). The route is **AH → AN → AL** (supply structure → decode → workspace). Open: AL's
+  focus/inhibition is for *selecting among competing chains* — the named next probe is competing-chains selection.
 - **Scale**: F → J → N → O (data wasn't the problem; capacity + speed were).
-- **Global coherence (open)**: H → K → T → X → AC (and where attention/boundaries must eventually deliver; AC's
-  Bayesian surprise is the topic-boundary signal, AC's event slot the soft top-down prior).
-- **Online learning / non-forgetting / memory budget**: B → AA → AE → AI → AK (counts beat gradients and never
-  forget; sleep tidies the memory once; the brain-inspired eviction policy keeps non-forgetting alive under bounded
-  memory and real shift; AI fixes the eviction *shape* — LFU for char-grams, the power law for sparse levels; AK
-  shows the budget needs no curriculum, only a large enough final horizon).
-- **Representations / the map**: P → W → Z → AD → AF → AH (the meaning-map prices the tail but doesn't pick the
-  word; the analogy is in the counts; constructions make a counted concept productive; AH redescribes a mastered
-  construction into an explicit, slot-addressable concept — the implicit→explicit, count→concept bridge).
+- **Global coherence (open)**: H → K → T → X → AC → AM (and where attention/boundaries must eventually deliver; AC's
+  Bayesian surprise is the topic-boundary signal, AC's event slot the soft top-down prior; AM is the third
+  persistent-state mechanism to land on the same 0.9% backoff slice — coherence will NOT yield to stacked state;
+  whatever crosses it must change the 99%, not rescue the 1%. Methodological law from AM: measure a top-down prior
+  against a *static* prior, never against no prior).
+- **Online learning / non-forgetting / memory budget**: B → AA → AE → AI → AK → AR → AQ → AS (counts beat gradients
+  and never forget; sleep tidies the memory once; the brain-inspired eviction policy keeps non-forgetting alive
+  under bounded memory and real shift; AI fixes the eviction *shape* — LFU for char-grams, the power law for sparse
+  levels; AK shows the budget needs no curriculum; AR confirms AI's prediction — power-law eviction *wins* at the
+  word level under non-stationarity, the sign flipped; AQ shows environment-as-memory is a *cost arbitrage*, not a
+  free lunch at equal budget; AS confirms the bounded-memory rule outright — under a budget the vanished mechanisms
+  return, consolidation flipping −0.006 → +0.307 bpc as the cap tightens, a measured curve).
+- **Representations / the map / VSA**: P → W → Z → AD → AF → AH → AN → AP (the meaning-map prices the tail but
+  doesn't pick the word; the analogy is in the counts; constructions make a counted concept productive; AH
+  redescribes a mastered construction into an explicit slot-addressable concept; AN reads those role-filler
+  structures back out of a sum given the roles; AP's permutation-bound FlyHash addresses pool similar phrases and
+  keep order, but the addressing blurs the tail — use it as a backoff layer under the literal table).
 - **Fragile ideas, earned the honest way**: P → W (the meaning-map got its fair rematch and was parked deeper with
   a reason, not killed on a headline); AB (gate parked on the rare slice), AD (induced links parked), AE (ART
-  resonance won two steps in) all judged on the axis they can win.
+  resonance won two steps in), AL (the workspace parked again, with a sharper reason — it's for selection, not a
+  single chain), AP (FlyHash parked as a backoff layer, not killed) all judged on the axis they can win.
