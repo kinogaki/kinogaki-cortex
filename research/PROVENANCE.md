@@ -56,6 +56,51 @@ post should link **grew from** (its parents) and **led to** (its children).
   noisy *training* hurt clean rare-context accuracy (count tables don't overfit like nets → fix is consistency-
   counting); second-level word→topic takeover is trending but hasn't crossed over by q≈0.3.
 
+- **Z — similarity hybrid** (← **P** raytracing, re-aimed onto the rare-context slice it was parked for; ← **U**
+  JEPA online concept clusters as the reps; ← **S** offset-attention as the counter it pours into) → use the map to
+  *read*, not to *walk*: a similarity cluster projected into the counter is a rare-context backoff prior — cuts
+  unseen-context perplexity ~20× without ever changing the top guess. The map prices the tail; the counts pick the
+  word → motivates **AD** (is the analogy itself in the counts?), and confirms leader-cluster pooling as the
+  right shape *for backoff*.
+- **AA — sleep consolidation** (← **U** counted latent cannot collapse; ← **R** bounded accumulation; ← **I/J**
+  one-part-repeated, whose count tables are the memory slept over; idea ← Letta *Towards Agents that Learn*) → one
+  offline pass of pruning + lossless distilling shrinks the memory 37% and *improves* rare-context bpc; a second,
+  harder pass grinds specifics into generic mush (Letta's "generic and lossy", reproduced in counts). Dream once.
+- **AB — calibrated confidence** (← **R** evidence/leaky accumulator → the precision weight; ← **X** the gate,
+  whose tuned threshold this replaces with a knob-free `f·c`; idea ← Pei Wang / NARS) → splitting a count into
+  hits/misses gives a NARS truth value `(f,c)` that calibrates for free (ECE 0.280→0.027, 10×) and, as an expert
+  weight, cuts perplexity 12.4→4.3. The knob-free gate loses to a tuned threshold on clean text but is the only
+  policy that beats always-open on the rare/unreliable slice → *parked there*. Confirms **the right combiner**
+  thread: the truth value is the weight a product-of-experts always wanted.
+- **AC — event model / discourse coherence** (← **T** ignition, whose altitude law this re-confirms by a different
+  road; ← **M** boundaries, the phrase signal it beats at *topic* boundaries; ← **U** JEPA concept clusters as the
+  event slots; ideas ← Zacks event segmentation, Kumar 2023 Bayesian surprise) → Bayesian surprise `KL(Pt‖Pt-1)`
+  beats per-token surprisal 5.7× and branching-entropy ~120× at finding real enwik9 article boundaries (F1 0.154
+  @±25; lead *grows* with scale 0.099→0.154 at 3→36 MB). Honest negative: precision-only as a hard segmenter; the
+  win is KL-as-ranked-signal. The slot prior helps only on the ~1% backoff slice (+0.143 bpw) — the **Exp T law,
+  re-confirmed**.
+- **AD — analogy in counts** (← **Z** similarity hybrid, whose leader-clustering is the right shape for backoff and
+  *wrong* for relations; ← **S** offset-attention, relations live in pair patterns; ideas ← NARS, the
+  parallelogram-in-counts result PMC11493305) → analogy IS already in raw counts: 3CosAdd on raw PPMI profiles
+  solves `a:b::c:?` at 56/94% (~4× baseline), no SVD/word2vec. TWO negatives: (i) online leader-clustering can't
+  substitute for SVD — it *blurs* the relation axes (paris & tokyo co-cluster), flat-to-worse at every strength;
+  (ii) NARS transitive induction spreads mass too broadly to beat a direct counter. The recurring **right combiner**
+  gap: the representation is in the counts, but we lack a count-native combiner that sharpens without blurring.
+- **AE — non-forgetting under real domain shift** (← **B** catastrophic forgetting, the test that had nothing to
+  forget, now given teeth; ← **X** the gate, kin to the LIDA broadcast winner; ← **U** the specific-context clusters
+  ART learns to protect; ideas ← ECAN STI/LTI, CLS, ART vigilance, LIDA broadcast) → stream Darwin→Shakespeare→Bible,
+  one pass, no replay, bounded memory: the brain-inspired DUAL model forgets ~21× less (total backward +0.021 vs the
+  recency cache's +0.454; Darwin flat −0.002 vs +0.341) AND has the better peak (2.22 vs 2.52). Load-bearing piece =
+  ART resonance (reinforce the most-*specific* recognizing context) — looked worse-than-baseline at first, won two
+  steps in (FRAGILE 4/7). Scope: a bounded-memory phenomenon, the only regime a lifelong learner lives in.
+- **AF — usage-based constructions** (← **C** word concepts, the first counted concept that earned its keep; ← **M**
+  boundaries, the frames an open slot abstracts over; ← **U** JEPA online categories the slot routes through; ideas
+  ← Bybee, Goldberg, Tomasello usage-based grammar) → count TWO things (token + type frequency) and a flat n-gram
+  becomes compositional: on held-out unseen (frame,filler) pairs the open-slot construction beats the n-gram 4.3×
+  on perplexity (5405 vs 23461), higher prob on 80%; froze idioms (*such as / based on / part of*) and abstracted a
+  NUMBER+UNIT slot; statistical preemption cut over-generation −39.5%. Honest: a backoff for the UNSEEN, not a
+  replacement (specific count is sharper when seen).
+
 ## How the two rules were born
 
 - **ONLINE-ONLY** ← **B** (counts beat gradients; the count substrate is inherently online) — made an explicit
@@ -67,9 +112,16 @@ post should link **grew from** (its parents) and **led to** (its children).
 
 - **Surprise / robustness**: A → M → V → R → Y (one signal: boundaries, attention, learning, and leaning on the
   idea when the surface fails).
-- **The right combiner**: D → I → S → X (product/geometric-mean pooling, calibrated, weighted; X's gate is the
-  arbiter when the parts are unequal).
+- **The right combiner**: D → I → S → X → AB → AD → AF (product/geometric-mean pooling, then calibrated/weighted by
+  the NARS truth value AB, then the count-native combiner AD/Z still lack — one that sharpens without blurring;
+  AF's open-slot head pours frame-preference into the category lexicon).
 - **Scale**: F → J → N → O (data wasn't the problem; capacity + speed were).
-- **Global coherence (open)**: H → K → T → X (and where attention/boundaries must eventually deliver).
+- **Global coherence (open)**: H → K → T → X → AC (and where attention/boundaries must eventually deliver; AC's
+  Bayesian surprise is the topic-boundary signal, AC's event slot the soft top-down prior).
+- **Online learning / non-forgetting**: B → AA → AE (counts beat gradients and never forget; sleep tidies the
+  memory once; the brain-inspired eviction policy keeps non-forgetting alive under bounded memory and real shift).
+- **Representations / the map**: P → W → Z → AD → AF (the meaning-map prices the tail but doesn't pick the word; the
+  analogy is in the counts; constructions make a counted concept productive).
 - **Fragile ideas, earned the honest way**: P → W (the meaning-map got its fair rematch and was parked deeper with
-  a reason, not killed on a headline).
+  a reason, not killed on a headline); AB (gate parked on the rare slice), AD (induced links parked), AE (ART
+  resonance won two steps in) all judged on the axis they can win.

@@ -50,7 +50,7 @@ there.
 
 ## The experiments
 
-In order, A through Y. "Verdict" is the honest call, negatives included. Each row
+In order, A through AF. "Verdict" is the honest call, negatives included. Each row
 links to its narrated blog post and its code folder. The full lineage — why each
 experiment grew from an earlier one — is in
 [research/PROVENANCE.md](research/PROVENANCE.md).
@@ -81,6 +81,13 @@ experiment grew from an earlier one — is in
 | Exp W | We gave the map its best shot | 2026-06-26 | negative — the fair rematch for proximity (Exp P): given the graph form, the best stack, and the rare-context slice, proximity still has no prediction niche (rare gap −4.8 ppl, not significant); evidence earns its keep there (+12.5 ppl, significant). Parked deeper | [link](https://cortex.kinogaki.com/raycortex/) | [experiments/raycortex](experiments/raycortex) |
 | Exp X | One brain part, or many? | 2026-06-26 | negative — specialization-by-level loses on bpc; the lone win is dynamic routing > static pool (~0.9 bpc) | [link](https://cortex.kinogaki.com/heterogeneous-stack/) | [experiments/heterogeneous-stack](experiments/heterogeneous-stack) |
 | Exp Y | When the letters lie, it leans on the idea | 2026-06-26 | qualified — under input-only noise the concept stack degrades 2.7x slower than a flat bigram, and the gate routes prediction mass from letters to concepts (86%→95%) with no noise signal given | [link](https://cortex.kinogaki.com/noise-concepts/) | [experiments/noise-concepts](experiments/noise-concepts) |
+| Exp Z | Use the map to read, not to walk | 2026-06-26 | qualified win — proximity failed as a predictor, so we poured it into the counter as a backoff prior; on the unseen-pair slice the similarity cluster cuts perplexity ~20x without changing the top guess | [link](https://cortex.kinogaki.com/sim-hybrid/) | [experiments/sim-hybrid](experiments/sim-hybrid) |
+| Exp AA | What an agent learns while it dreams | 2026-06-26 | qualified win — one offline sleep pass (prune + distil) cuts memory 37% and improves rare-context bpc with no new data; keep dreaming and it goes generic and lossy (Letta's failure mode) | [link](https://cortex.kinogaki.com/sleep-consolidation/) | [experiments/sleep-consolidation](experiments/sleep-consolidation) |
+| Exp AB | How sure is a count? | 2026-06-26 | qualified win — a NARS truth value (split a count into hits/misses) calibrates for free (ECE 0.280→0.027, 10x) and cuts perplexity 12.4→4.3 as an expert weight; the knob-free gate wins only on the rare slice | [link](https://cortex.kinogaki.com/calibrated-confidence/) | [experiments/calibrated-confidence](experiments/calibrated-confidence) |
+| Exp AC | What the model thinks is happening | 2026-06-26 | qualified win — Bayesian surprise KL(Pt‖Pt-1) beats per-token surprisal 5.7x and branching-entropy ~120x at finding real article boundaries (F1 0.154 @±25), lead grows with scale; event-slot prior helps only on the 1% backoff slice | [link](https://cortex.kinogaki.com/event-model/) | [experiments/event-model](experiments/event-model) |
+| Exp AD | Is the analogy already in the counts? | 2026-06-26 | qualified win — raw PPMI 3CosAdd solves a:b::c:? at 56/94% (~4x baseline), no SVD/word2vec; two negatives: leader-clustering blurs the relation axes and NARS induction spreads mass too broadly to beat a direct counter | [link](https://cortex.kinogaki.com/analogy-in-counts/) | [experiments/analogy-in-counts](experiments/analogy-in-counts) |
+| Exp AE | Learning the new without losing the old | 2026-06-26 | qualified win — under a real register shift (Darwin→Shakespeare→Bible) at bounded memory, the brain-inspired stack forgets ~21x less than a recency cache (+0.021 vs +0.454) and has the better peak; ART resonance was load-bearing | [link](https://cortex.kinogaki.com/non-forgetting/) | [experiments/non-forgetting](experiments/non-forgetting) |
+| Exp AF | Grammar is just counting, made productive | 2026-06-26 | qualified win — count token + type frequency and a flat n-gram turns compositional; on held-out unseen (frame,filler) pairs the open-slot construction beats the n-gram 4.3x on perplexity (5405 vs 23461) | [link](https://cortex.kinogaki.com/constructions/) | [experiments/constructions](experiments/constructions) |
 
 ## Cross-cutting threads
 
