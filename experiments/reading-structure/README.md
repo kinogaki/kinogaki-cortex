@@ -2,13 +2,15 @@
 
 **Experiment AN · 2026-06-26 · split**
 
-HRR role-filler decode **with known roles** = **100%** (robust to 8 bound pairs, even
-at D=512) — compositional reading is solved when structure is supplied. But the blind
-**resonator** (factor a product with unknown roles) **fails** at affordable dimension
-(≈0% all-factor recovery over a 4000-word codebook at D ≤ 2048 — the capacity wall).
-The payoff: VSA-decode works *given* structure (which redescription supplies and the
-System-2 workspace manipulates) — don't factor blindly. (Analogy probe not recovered;
-flagged as a follow-up.)
+A three-way split. HRR role-filler decode **with known roles** = **100%** (robust to 8
+bound pairs, even at D=512) — compositional reading is solved when structure is supplied.
+The blind **resonator** (factor a product with unknown roles) **fails** at affordable
+dimension (cliff at 200–400 atoms/factor, ≈0% over a 4000-word codebook — the capacity
+wall). And **analogy** via a bound mapping vector is a clean negative: **24 / 60** restricted
+vs raw counts' **56 / 94** — binarized binding discards the graded magnitudes the
+parallelogram needs. The payoff: a VSA is a *reader* of structure you supply (which
+redescription mints and the System-2 workspace moves), not a discoverer of structure you
+don't — don't factor blindly, and keep the count parallelogram as the analogy organ.
 
 **Run it** (from the repo root, after `bash data/get-data.sh`):
 

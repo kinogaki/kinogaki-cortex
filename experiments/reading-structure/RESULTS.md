@@ -1,13 +1,10 @@
-# Exp AN — resonator / HRR compositional decode — 2026-06-26
+# Exp AN — resonator / HRR compositional decode + VSA analogy — 2026-06-26
 
 Vector Symbolic Architecture, gradient-free. text8 16 MB, 2.73 M words; 4,000 (subject, verb, object) trigram
 records mined from the top-4,000 words. Atoms = fixed random ±1 hypervectors; bind = elementwise product;
 bundle = sign(sum) (the HDC default); permute (cyclic shift) tags slot order. Online, single pass, no gradients,
-no SVD. Two tests: decode *when the frame is known* (HRR), and decode *blindly* (resonator).
-
-*(Recovered from the run output: the experiment agent looped on re-running and never wrote this file; the numbers
-below are from the completed run, captured before the loop. The analogy-via-mapping-vector probe was not recovered
-and is flagged as a follow-up.)*
+no SVD. Three tests: decode *when the frame is known* (HRR), decode *blindly* (resonator), and *analogy* via a
+bound mapping vector (head-to-head with Exp AD's raw-count parallelogram).
 
 ## (1a) Slot decode with KNOWN roles — `T = role_s⊛S + role_v⊛V + role_o⊛O`, unbind a role, clean up → PERFECT
 
@@ -22,35 +19,64 @@ load (8 bound pairs). **When the roles/frame are supplied, HRR compositional rea
 
 ## (1b) Resonator — factor `s = ρ⁰(S)⊛ρ¹(V)⊛ρ²(O)` with NO roles known → FAILS at affordable dimension
 
-| D | F | all-F acc | per-slot | lock% | avg-iters |
-|---:|---:|---:|---:|---:|---:|
-| 1024 | 2 | 0.0% | 0.2% | 0.0% | 60.0 |
-| 1024 | 3 | 0.0% | 0.0% | 51.5% | 47.4 |
-| 1024 | 4 | 0.0% | 0.0% | 1.2% | 59.9 |
-| 2048 | 2 | 0.5% | 3.9% | 0.7% | 59.8 |
-| 2048 | 3 | 0.0% | 0.0% | 60.5% | 46.9 |
-| 2048 | 4 | 0.0% | 0.0% | 6.0% | 59.1 |
+| dim D | F | all-F acc | per-slot | lock% |
+|---:|---:|---:|---:|---:|
+| 1024 | 2 | 0.0% | 0.3% | 0% |
+| 2048 | 2 | 0.7% | 4.3% | 1% |
+| 4096 | 2 | 13.0% | 25.2% | 13% |
+| 4096 | 3 | 0.0% | 0.0% | 19% (spurious) |
+| 4096 | 4 | 0.0% | 0.0% | 0% |
 
-The resonator **converges** (lock-rate up to 60% at F=3) but to the **wrong factors** — ≈0% all-F recovery over a
-4,000-atom codebook at D ≤ 2048. This is the documented resonator capacity wall: factoring a product of F *unknown*
-atoms over a vocabulary this size needs an impractically high dimension. Blind structure discovery does not pay
-on real text vocabularies at affordable cost.
+The resonator **converges** to the **wrong factors** over a 4,000-atom codebook. Sweeping atoms-per-factor at
+F=3, D=4096 locates the capacity cliff exactly:
 
-## Verdict — the split is the finding
+| atoms / factor | all-3 acc | lock% |
+|---:|---:|---:|
+| 20 | 99.5% | 99.5% |
+| 50 | 94.0% | 95.5% |
+| 100 | 71.5% | 72.5% |
+| 200 | 16.5% | 17.0% |
+| 400 | 0.0% | 0.0% |
+| 800 | 0.0% | 1.0% |
 
-- **Compositional reading is solved when structure is supplied.** HRR role-filler binding + cleanup recovers
-  subject/verb/object perfectly (100%, robust to 8 bound pairs, even at D=512). Structure genuinely survives a
-  sum — gradient-free, online. The representation works.
-- **Blind structure discovery (resonator) fails at affordable cost** — it converges to the wrong factorization
-  over a real codebook at D ≤ 2048 (the known capacity limit).
-- **The architectural payoff (why this matters):** VSA gives compositional decode **iff a structure source
-  supplies the roles/slots** — and we *have* one. **Exp AH (representational redescription) produces exactly the
-  explicit, slot-addressable concepts** this decode needs; and **Exp AL's System-2 workspace manipulates exactly
-  these role-filler bundles.** So the real path is *VSA-decode over redescribed slots*, not blind factorization —
-  AN + AH + AL compose into one route to count-native compositional structure. Don't ask the resonator to
-  discover the frame; let redescription hand it over.
-- **Honest gaps:** the analogy-via-mapping-vector comparison to Exp AD (raw-count 3CosAdd, ~56%) was not recovered
-  from this run. Follow-up: that probe, and the AN+AH integration (decode redescribed slot-objects).
+At D=4096 the resonator factors a `~100³` space reliably and **falls off a cliff between 200 and 400 atoms per
+factor** — two orders of magnitude short of a 4,000-word vocabulary, exactly where Frady/Kent say it will.
+Blind structure discovery does not pay on real text vocabularies at affordable cost.
+
+## (2) Analogy via mapping vector — VSA does NOT sharpen the count parallelogram (clean negative)
+
+`T = a⊛b`; is `c⊛T ≈ d` for `a:b::c:d`? Same four families / protocol as Exp AD (744 items). Atoms either pure
+random ±1 (the honest null) or **grounded** = `sign(PPMI_profile @ gaussian)` (a ±1 random-projection sketch, so
+a relation *can* live in the geometry). Restricted candidate set, macro top-1 / top-5:
+
+| family | AD raw-count ppmi | VSA-rand | VSA-ground |
+|---|---:|---:|---:|
+| capital-country | 64 / 92 | 7 / 26 | 8 / 29 |
+| currency | 30 / 100 | 27 / 93 | 30 / 87 |
+| plural | 88 / 98 | 8 / 33 | 42 / 72 |
+| gender | 43 / 87 | 4 / 30 | 17 / 52 |
+| **MACRO** | **56 / 94** | 11 / 45 | **24 / 60** |
+
+Grounded VSA lands at **24 / 60**, less than half of AD's **56 / 94** from the same counts. Dimension helps the
+grounded sketch (restricted top-1: 17% @ D=512 → 28% @ D=8192) but never approaches the raw count. Sign-binarizing
+a PPMI row into ±1 discards the *graded* co-occurrence weights the parallelogram rides on, so multiplicative `a⊛b`
+binding is strictly lossier than additive 3CosAdd over the full profile. **The count parallelogram, read with a
+cosine, remains the best gradient-free analogy organ we have.**
+
+## Verdict — the three-way split is the finding
+
+- **(1a) keeper.** HRR role-filler binding + cleanup recovers subject/verb/object perfectly (100%, robust to 8
+  bound pairs, even at D=512). Structure survives a sum, gradient-free, online — the count side could *compose*
+  (AD) but never *read a composition back out*. This is genuinely new, **iff a structure source supplies the slots.**
+- **(1b) parked negative.** The resonator factors only tiny alphabets (cliff at 200–400 atoms/factor); do not
+  expect word-scale blind factorization at D ≤ 8192.
+- **(2) negative.** VSA mapping-vector analogy is strictly worse than AD's raw-count 3CosAdd (24 vs 56). Keep the
+  count parallelogram as the analogy organ.
+- **The architectural payoff:** VSA gives compositional decode **iff a structure source supplies the roles/slots**
+  — and we *have* one. **Exp AH (representational redescription)** produces explicit, slot-addressable concepts;
+  **Exp AL's System-2 workspace** manipulates exactly these role-filler bundles. The real path is *VSA-decode over
+  redescribed slots*, not blind factorization — AN + AH + AL compose into one route to count-native compositional
+  structure. Don't ask the resonator to discover the frame; let redescription hand it over.
 
 Online throughout: random projections + cleanup over the atom codebook, no gradients, no SVD, no backprop.
-`lib/vsa.py`, `exp_an_resonator/run.py`.
+`lib/vsa.py`, `exp_an_resonator/run.py`. Whole run ~22 min CPU, single pass, fixed seed.
