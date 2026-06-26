@@ -101,6 +101,47 @@ post should link **grew from** (its parents) and **led to** (its children).
   NUMBER+UNIT slot; statistical preemption cut over-generation −39.5%. Honest: a backoff for the UNSEEN, not a
   replacement (specific count is sharper when seen).
 
+## The System-2 round (AG → AK)
+
+- **AG — the deliberate pass / a count-native System 2** (← **AB** calibrated confidence, the metacognitive
+  trigger "is my fast answer trustworthy?"; ← **X** the gate, surprise/confidence opening a route to a higher
+  level; ← **R** leaky evidence, the accumulators the deliberate race runs over; ideas ← Kahneman default-
+  interventionist, Stanovich cognitive decoupling, Botvinick conflict monitoring, Engle WM-capacity) →
+  everything before this was System 1; a dual gate (calibrated `f·c` + Botvinick conflict) deploys a deliberate
+  pass that OVERRIDES System 1 only when it is wrong. Engle signature clean: +0.38 acc on conflict cases (S1
+  wrong 88%), 0.000 harm on no-conflict, bit-for-bit fallback at zero budget. Honest negative: the elaborate
+  serial workspace (focus + IOR + decoupling) loses to a trivial "defer to wider context" (0.15 vs 0.39 where
+  they differ) — the GATE is load-bearing, the workspace is *parked* for the multi-step task (AC/AD).
+- **AH — representational redescription** (← **C** word concepts, the first counted concept that earned its
+  keep; ← **U** JEPA online categories the slots route through; ← **AF** the implicit constructions this
+  promotes; idea ← Karmiloff-Smith *Beyond Modularity*) → stability (not error) promotes a mastered
+  construction into an explicit, slot-addressable concept answering queries the flat count can't (inverted slot
+  lookup, role substitution, slot analogy). KS U-shaped dip confirmed (0.155 → trough 0.051 → recovered 0.181
+  above baseline). Honest: the recovery is a consequence of modeled E1→E2 re-binding; the win is that the KS
+  mechanism is expressible/self-consistent on counts, manipulability the real prize. Architecturally this
+  provides the explicit OPERANDS the AG workspace deliberates over.
+- **AI — power-law memory / budgeted eviction** (← **AE** non-forgetting, which made the budget load-bearing and
+  the leaky use-score the thing to beat; ← **AA** sleep, the other place a bounded memory decides what to keep;
+  ← the scaling studies, the budget-re-elevates rule; idea ← Anderson & Schooler, ACT-R rational analysis) →
+  the power law (B = ln Σ tₖ⁻ᵈ) is the right SHAPE (spacing: spaced 8.96× more accessible; EMA can't represent
+  it) but raw-count LFU wins eviction for dense char-grams at every cap (LFU = the d→0 limit; decay sweep
+  degrades monotonically), and power-law-weighted prediction loses (+0.68 bpc). Right shape, wrong place: keep
+  LFU for char-grams, reserve the power law for sparse word/concept-level retrieval.
+- **AJ — take-the-best / less-is-more** (← **S** offset-attention, whose per-offset experts are the cues
+  take-the-best ranks; ← **AB** calibrated confidence, whose hit/miss truth value IS the ecological validity
+  that orders the cues; ideas ← Gigerenzer & Goldstein take-the-best, Simon satisficing, the bias–variance
+  theorem) → validity-ordered, noncompensatory, early-stopping inference beats full geometric-mean integration
+  on every axis (acc 15.00% vs 9.71%, ppl 1918 vs 7160, 4.56 vs 8 cues/step); less-is-more (α>β) confirmed on
+  sparse contexts. Honest negative: a base-rate prior γ>0 on the single-pass clusterer lowers stability (γ=0
+  stays). REVISES the standing combiner: validity-ordered take-the-best, not full pooling — the sharpening rule
+  the *right-combiner* thread kept asking for (sharpen by ignoring, not blurring).
+- **AK — memory-budget-as-curriculum** (← the scaling studies / **F**, the question of how capacity grows with
+  data; ← **AE** the leaky-accumulator budget this schedules; ideas ← Elman "starting small", Vygotsky ZPD) →
+  growing the budget on a schedule does NOT beat full-from-start (FULL 2.744 vs GROW 2.751, robust; fixed-small
+  loses 30%). "Starting small" was a property of the gradient OPTIMIZER (which freezes early guesses), not of
+  learning — a count learner can't get stuck, so no curriculum is needed, only enough final memory. ZPD overlay
+  hurts (−5.8%). The bounded-memory rule stands; scheduling it is a no-op.
+
 ## How the two rules were born
 
 - **ONLINE-ONLY** ← **B** (counts beat gradients; the count substrate is inherently online) — made an explicit
@@ -112,16 +153,25 @@ post should link **grew from** (its parents) and **led to** (its children).
 
 - **Surprise / robustness**: A → M → V → R → Y (one signal: boundaries, attention, learning, and leaning on the
   idea when the surface fails).
-- **The right combiner**: D → I → S → X → AB → AD → AF (product/geometric-mean pooling, then calibrated/weighted by
-  the NARS truth value AB, then the count-native combiner AD/Z still lack — one that sharpens without blurring;
-  AF's open-slot head pours frame-preference into the category lexicon).
+- **The right combiner**: D → I → S → X → AB → AD → AF → AJ (product/geometric-mean pooling, then calibrated/weighted
+  by the NARS truth value AB; AF's open-slot head pours frame-preference into the category lexicon; AJ finally
+  answers the sharpening question — validity-ordered take-the-best beats full pooling on every axis by *ignoring*
+  the weak cues, not blurring).
+- **System 2 (new)**: AB → X → AG, with AH supplying the operands (AB asks *is the fast answer calibrated?*; X is
+  the gate routing to a higher level; AG is the metacognitive gate that deploys a deliberate pass overriding
+  System 1 only when wrong; AH redescribes implicit counts into the explicit, manipulable concepts the workspace
+  deliberates over). Open frontier: the multi-step task (→ AC discourse, AD compositional reasoning) where the
+  parked serial workspace must earn its keep.
 - **Scale**: F → J → N → O (data wasn't the problem; capacity + speed were).
 - **Global coherence (open)**: H → K → T → X → AC (and where attention/boundaries must eventually deliver; AC's
   Bayesian surprise is the topic-boundary signal, AC's event slot the soft top-down prior).
-- **Online learning / non-forgetting**: B → AA → AE (counts beat gradients and never forget; sleep tidies the
-  memory once; the brain-inspired eviction policy keeps non-forgetting alive under bounded memory and real shift).
-- **Representations / the map**: P → W → Z → AD → AF (the meaning-map prices the tail but doesn't pick the word; the
-  analogy is in the counts; constructions make a counted concept productive).
+- **Online learning / non-forgetting / memory budget**: B → AA → AE → AI → AK (counts beat gradients and never
+  forget; sleep tidies the memory once; the brain-inspired eviction policy keeps non-forgetting alive under bounded
+  memory and real shift; AI fixes the eviction *shape* — LFU for char-grams, the power law for sparse levels; AK
+  shows the budget needs no curriculum, only a large enough final horizon).
+- **Representations / the map**: P → W → Z → AD → AF → AH (the meaning-map prices the tail but doesn't pick the
+  word; the analogy is in the counts; constructions make a counted concept productive; AH redescribes a mastered
+  construction into an explicit, slot-addressable concept — the implicit→explicit, count→concept bridge).
 - **Fragile ideas, earned the honest way**: P → W (the meaning-map got its fair rematch and was parked deeper with
   a reason, not killed on a headline); AB (gate parked on the rare slice), AD (induced links parked), AE (ART
   resonance won two steps in) all judged on the axis they can win.
