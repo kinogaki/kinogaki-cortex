@@ -29,9 +29,12 @@ SVD/backprop; BOUNDED (the agent's own two-band trim). Reuses contingency.Contin
 verbatim — this module only supplies the WORLD and the loop, never a new learning rule.
 """
 import os
+import shutil
+import subprocess
 import numpy as np
 
 HAIKU_MODEL = "claude-haiku-4-5-20251001"
+CLI_MODEL = "claude-haiku-4-5"          # the `claude -p` model alias (no API key — uses the logged-in CLI)
 
 SYSTEM_PROMPT = (
     "You are a warm, patient grown-up talking with a young child who is just learning to talk. "
@@ -72,6 +75,46 @@ def make_haiku_responder(max_tokens=40, temperature=0.7):
             raise RuntimeError(f"haiku call failed: {type(e).__name__}: {e}")
 
     return responder
+
+
+# ─────────────────────── live responder via the logged-in `claude` CLI (no API key) ───────────────────────
+
+def claude_cli_available():
+    return shutil.which("claude") is not None
+
+def _claude_cli_call(said, timeout=60):
+    """One headless `claude -p` turn through the logged-in CLI — uses the user's Claude Code auth, no key.
+    The system prompt rides inline (the -p print mode takes one prompt); we prepend the child-register
+    instruction so the reply stays a short 10-year-old answer."""
+    prompt = (SYSTEM_PROMPT + "\n\nThe child just said: \"" + (said.strip() or "hi")
+              + "\"\nReply now with ONE or TWO short simple sentences, nothing else.")
+    r = subprocess.run(["claude", "-p", prompt, "--model", CLI_MODEL],
+                       capture_output=True, text=True, timeout=timeout)
+    if r.returncode != 0:
+        raise RuntimeError(f"claude CLI exit {r.returncode}: {r.stderr.strip()[:200]}")
+    return r.stdout.strip()
+
+def make_claude_cli_responder(timeout=60):
+    """Return a live `responder(text)->str` backed by the `claude` CLI (logged-in, no API key), or None
+    if the CLI is absent. One subprocess per turn — slower than the SDK but needs no credentials."""
+    if not claude_cli_available():
+        return None
+    def responder(text):
+        try:
+            return _claude_cli_call(text, timeout=timeout)
+        except Exception as e:
+            raise RuntimeError(f"claude CLI call failed: {type(e).__name__}: {e}")
+    return responder
+
+def claude_cli_smoke_test():
+    """One-message probe of the CLI path. Returns (ok:bool, detail:str). Never raises."""
+    if not claude_cli_available():
+        return False, "`claude` CLI not on PATH"
+    try:
+        out = _claude_cli_call("the dog ran", timeout=60)
+        return (bool(out), out[:200] if out else "empty reply")
+    except Exception as e:
+        return False, f"{type(e).__name__}: {str(e)[:200]}"
 
 
 def smoke_test():

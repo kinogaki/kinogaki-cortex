@@ -281,10 +281,14 @@ and run BE/BC inside the live reactive loop.
   to rescue its bpc, keep it for what it wins.
 - **BL — push BD frame-survival** (← **BD**'s 61% short of target) → **WIN**: an improved chunk-aware Levelt formulator
   lifts frame-survival **61% → 87.5%**, into the 80–95% band. The generation turn's one weak sub-claim is fixed.
-- **BM — live Haiku reactive loop** (← **BE** offline; ← **AT** harness) → **WIN on the scripted fallback; the true live
-  run is BLOCKED-ON-CREDENTIALS**. No `ANTHROPIC_API_KEY` in the environment, so no model call; the live path is fully
-  wired (`liveloop.make_haiku_responder`, model `claude-haiku-4-5-20251001`, 10yo-register prompt). On a scripted
-  responder, contingency-ON still beats the yoked control (kill did not fire). **The live-Haiku confirmation is pending a key.**
+- **BM — live Haiku reactive loop** (← **BE** offline; ← **AT** harness) → **WIN, confirmed LIVE — no API key needed.**
+  The logged-in `claude` CLI is itself an authenticated interlocutor: `make_claude_cli_responder` shells out to
+  `claude -p --model claude-haiku-4-5` (one headless turn/reply, uses the machine's Claude Code auth). 40 real Haiku
+  replies captured; contingency-ON beats the scrambled-timing YOKED at **12/12** sweep settings (best Δreply-surprise
+  **+0.2514**, turn-overlap 12/12, Δbpc +0.201). BE's offline win SURVIVES the live reactive loop — the live AT
+  kill-test did not fire. *(Caveat: the agent's utterances are still per-char gibberish, so what's confirmed is the
+  contingency — a warm reply teaches more than the same reply re-timed cold — not fluent dialogue.)* The earlier
+  scripted-fallback run is kept for the record. **The reactive-environment bet now has live-model support.**
 
 ## The production turn (mimicry → producing-for-effect) — research library + queue BN→CF
 

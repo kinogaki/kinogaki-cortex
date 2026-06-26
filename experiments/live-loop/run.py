@@ -54,12 +54,19 @@ babble = liveloop.babble_maker(pmarg, V0, RNG)
 print("=" * 92)
 print("BM — live reactive loop: probing the interlocutor")
 print("=" * 92)
-ok, detail = liveloop.smoke_test()
-print(f"  smoke test: {'LIVE OK' if ok else 'BLOCKED'} — {detail}")
-if ok:
+# Prefer the logged-in `claude` CLI (no API key needed) → then the SDK (needs a key) → then scripted.
+cli_ok, cli_detail = liveloop.claude_cli_smoke_test()
+print(f"  claude CLI probe: {'LIVE OK' if cli_ok else 'unavailable'} — {cli_detail}")
+api_ok, api_detail = liveloop.smoke_test()
+print(f"  anthropic SDK probe: {'LIVE OK' if api_ok else 'unavailable'} — {api_detail}")
+if cli_ok:
+    responder = liveloop.make_claude_cli_responder(timeout=60)
+    MODE = "LIVE-CLAUDE-CLI (claude-haiku-4-5, logged-in, no API key)"
+    N_TURNS = 40                                            # ~4s/turn via the CLI → keep it modest
+elif api_ok:
     responder = liveloop.make_haiku_responder(max_tokens=40, temperature=0.7)
-    MODE = "LIVE-HAIKU"
-    N_TURNS = 60                                            # cheap: ≤60 live calls per condition-build
+    MODE = "LIVE-HAIKU (SDK)"
+    N_TURNS = 60
 else:
     responder = liveloop.ScriptedResponder(seed=SEED)
     MODE = "FALLBACK-SCRIPTED (BLOCKED-ON-CREDENTIALS)"

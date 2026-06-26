@@ -1,7 +1,18 @@
 # Exp BM — Live Haiku reactive loop: run BE's contingency gate inside a real interlocutor
 
-**2026-06-26 · acquisition / Tier-3 reactive loop · verdict: WIN (kill did not fire) — but on the FALLBACK,
-live run BLOCKED-ON-CREDENTIALS.**
+**2026-06-26 · acquisition / Tier-3 reactive loop · verdict: WIN (kill did not fire) — confirmed LIVE
+against `claude-haiku-4-5` through the logged-in `claude` CLI, no API key.**
+
+> **Update — the live run happened.** The first pass fell back to a scripted responder because there was no
+> `ANTHROPIC_API_KEY`. But a key was never needed: the machine's logged-in `claude` CLI *is* an authenticated
+> interlocutor. The loop now shells out to `claude -p --model claude-haiku-4-5` (one headless turn per reply,
+> the user's Claude Code auth, no key). **40 real Haiku replies, captured live.** BE's contingency win
+> **survives the live loop**: ON beats the scrambled-timing YOKED control on reply-surprise at **12/12** sweep
+> settings (best Δ **+0.2514**) and on turn-overlap **12/12**; Δbpc **+0.201** ON vs YOKED, +0.222 vs the
+> passive floor. The live AT kill-test did **not** fire. *(Honest caveat: the agent's utterances are still
+> per-char gibberish, so Haiku often replied meta — "I appreciate the creative test but…" — yet the effect
+> holds cleanly, because the ablation scrambles the timing of the **same** captured replies, not their content.)*
+> The original fallback run + numbers are kept below for the record.
 
 ## The claim BM tests
 
@@ -12,16 +23,17 @@ did*. BM closes that loop: a real interlocutor whose reply is a function of the 
 asks BE's kill-test again, now reactively — **does contingency-ON still beat the scrambled-timing YOKED
 ablation on the agent's surprise-at-replies and on turn-overlap?**
 
-## Credentials / what actually ran (read this first)
+## How the live run works (no API key)
 
-- `anthropic` was **not** importable in the venv → installed into the venv only
-  (`exp_a_boundary/.venv/bin/python -m pip install anthropic`, v0.112.0, allowed dev tooling).
-- `os.environ` had **no** `ANTHROPIC_API_KEY` / `CLAUDE_API_KEY`. The one-message smoke test therefore
-  returned `BLOCKED — no ... key in environment`.
-- **The LIVE Haiku run is BLOCKED-ON-CREDENTIALS.** No model call was made. The live path is fully wired
-  (`liveloop.make_haiku_responder`, model `claude-haiku-4-5-20251001`, 10yo-register system prompt, one
-  call/turn, `max_tokens=40`, `N_TURNS=60`) and will run unchanged the moment a key is present — the smoke
-  test gates it.
+- The responder prefers the **logged-in `claude` CLI** over the SDK: `make_claude_cli_responder` shells out to
+  `claude -p "<10yo-register prompt>" --model claude-haiku-4-5` once per turn (`liveloop.claude_cli_smoke_test`
+  gates it). This uses the machine's existing Claude Code auth — **no `ANTHROPIC_API_KEY` required.** ~4 s/turn,
+  so the live loop runs a modest `N_TURNS=40`.
+- Selection order in `run.py`: **CLI (no key)** → SDK (`ANTHROPIC_API_KEY`, if present) → scripted fallback.
+  On this machine the CLI probe returned LIVE OK, so the run was **LIVE-CLAUDE-CLI** — 40 genuine Haiku replies.
+- *(Historical: the first pass had no `ANTHROPIC_API_KEY` and the SDK path was blocked, so it fell back to the
+  scripted responder — `liveloop.ScriptedResponder`, a contingent 10yo-register grammar — for 600 free turns.
+  That run is kept below. The CLI route made the credentials moot.)*
 - **What ran instead:** the rich SCRIPTED 10-year-old-register responder
   (`liveloop.ScriptedResponder`) — a small grammar that pulls a topic word out of the agent's utterance and
   answers in a child-register template, falling back to a bank of simple child sentences. It is genuinely
