@@ -50,7 +50,7 @@ there.
 
 ## The experiments
 
-In order, A through X. "Verdict" is the honest call, negatives included. Each row
+In order, A through Y. "Verdict" is the honest call, negatives included. Each row
 links to its narrated blog post and its code folder. The full lineage — why each
 experiment grew from an earlier one — is in
 [research/PROVENANCE.md](research/PROVENANCE.md).
@@ -78,8 +78,9 @@ experiment grew from an earlier one — is in
 | Exp T | When the whole room agrees on a topic | 2026-06-26 | qualified — topic hurts at the char level, helps words where local context ran out; beats shuffled topic | [link](https://cortex.kinogaki.com/ignition/) | [experiments/ignition](experiments/ignition) |
 | Exp U | Predicting the kind, not the word | 2026-06-26 | qualified — counted-cluster head beats the token head 65.4% vs 6.7%; cannot collapse | [link](https://cortex.kinogaki.com/jepa/) | [experiments/jepa](experiments/jepa) |
 | Exp V | You can't write your signature backwards | 2026-06-26 | clear win — a memory of change transfers to unseen words (+25% vs +114%), runs one direction | [link](https://cortex.kinogaki.com/trajectory-memory/) | [experiments/trajectory-memory](experiments/trajectory-memory) |
-| Exp W | Ray-cortex (offset + graph + topic) | 2026-06-26 | in progress — results pending; slot reserved | — | [experiments/raycortex](experiments/raycortex) |
-| Exp X | The heterogeneous specialized stack | 2026-06-26 | negative — specialization-by-level loses on bpc; the lone win is dynamic routing > static pool (~0.9 bpc) | — | [experiments/heterogeneous-stack](experiments/heterogeneous-stack) |
+| Exp W | We gave the map its best shot | 2026-06-26 | negative — the fair rematch for proximity (Exp P): given the graph form, the best stack, and the rare-context slice, proximity still has no prediction niche (rare gap −4.8 ppl, not significant); evidence earns its keep there (+12.5 ppl, significant). Parked deeper | [link](https://cortex.kinogaki.com/raycortex/) | [experiments/raycortex](experiments/raycortex) |
+| Exp X | One brain part, or many? | 2026-06-26 | negative — specialization-by-level loses on bpc; the lone win is dynamic routing > static pool (~0.9 bpc) | [link](https://cortex.kinogaki.com/heterogeneous-stack/) | [experiments/heterogeneous-stack](experiments/heterogeneous-stack) |
+| Exp Y | When the letters lie, it leans on the idea | 2026-06-26 | qualified — under input-only noise the concept stack degrades 2.7x slower than a flat bigram, and the gate routes prediction mass from letters to concepts (86%→95%) with no noise signal given | [link](https://cortex.kinogaki.com/noise-concepts/) | [experiments/noise-concepts](experiments/noise-concepts) |
 
 ## Cross-cutting threads
 

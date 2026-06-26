@@ -10,4 +10,4 @@ The opposite-axis test to Exp I: instead of one uniform Column repeated, give ea
 python experiments/heterogeneous-stack/run.py
 ```
 
-**Blog post:** none (in-tree result; see RESULTS.md).
+**Blog post:** ["One brain part, or many? We gave each level its own job"](https://cortex.kinogaki.com/heterogeneous-stack/)

@@ -40,6 +40,21 @@ post should link **grew from** (its parents) and **led to** (its children).
   prediction + sparsity sweep.
 - **V — trajectory/change memory** (← the *Trajectory Memory* talk y3zBQoueYDg; ← A's boundary signal) → change
   models transfer across content; trajectories are directional; affordances prime onsets.
+- **W — ray-cortex / fair rematch** (← **P** proximity, parked; ← **R** evidence; ← **T** ignition; ← **S** offset-
+  attention) → the fair rematch P earned: proximity in its graph form, inside the best stack, on the rare-context
+  slice, swept weights. Evidence *earns its keep* on rare/unseen (significant, +12.5 ppl rare); proximity still has
+  no prediction niche (rare gap −4.8, not significant; rare preceding word absent from the PMI graph) → *parked
+  deeper*, live use = inspection/similarity, not prediction.
+- **X — heterogeneous specialized stack** (← **I/J** one-part-repeated, the opposite axis; ← **T** ignition, the slow
+  topic level; ← **S** offset-attention, the word level; ← source mining) → specialization-by-level *loses* on bpc
+  (uniform 1.985 vs full 2.369); each piece wins on its own axis (word calibration, 8000 phrase chunks, 143 online
+  topics); the one clean win is the **gate** — dynamic confidence routing ≫ static pool (~0.9 bpc). When parts are
+  unequal, the arbiter is load-bearing.
+- **Y — noise forces concept-reliance** (← **R** leaky-evidence char pooling; ← **X** the gated four-level stack) →
+  perception-time noise on the INPUT only; the stack degrades ~2.7× slower than a flat bigram, and the gate routes
+  prediction mass from letters to concepts (86%→95% as p 0→0.3) with no noise signal given. Two parked negatives:
+  noisy *training* hurt clean rare-context accuracy (count tables don't overfit like nets → fix is consistency-
+  counting); second-level word→topic takeover is trending but hasn't crossed over by q≈0.3.
 
 ## How the two rules were born
 
@@ -50,7 +65,11 @@ post should link **grew from** (its parents) and **led to** (its children).
 
 ## The cross-cutting threads (link posts by these too)
 
-- **Surprise**: A → M → V → R (one signal: boundaries + attention + learning).
-- **The right combiner**: D → I → S (product/geometric-mean pooling, calibrated, weighted).
+- **Surprise / robustness**: A → M → V → R → Y (one signal: boundaries, attention, learning, and leaning on the
+  idea when the surface fails).
+- **The right combiner**: D → I → S → X (product/geometric-mean pooling, calibrated, weighted; X's gate is the
+  arbiter when the parts are unequal).
 - **Scale**: F → J → N → O (data wasn't the problem; capacity + speed were).
-- **Global coherence (open)**: H → K → T (and where attention/boundaries must eventually deliver).
+- **Global coherence (open)**: H → K → T → X (and where attention/boundaries must eventually deliver).
+- **Fragile ideas, earned the honest way**: P → W (the meaning-map got its fair rematch and was parked deeper with
+  a reason, not killed on a headline).
