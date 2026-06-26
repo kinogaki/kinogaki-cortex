@@ -1,0 +1,27 @@
+# datasets — never committed (run data/get-data.sh to fetch)
+data/*
+!data/README.md
+!data/get-data.sh
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.venv/
+venv/
+
+# experiment scratch / large or binary artifacts
+*.zip
+*.npy
+*.npz
+out.txt
+out_*.txt
+run.log
+_site/
+
+# os
+.DS_Store
+
+# generated experiment artifacts
+*.prisma

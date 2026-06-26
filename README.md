@@ -1,0 +1,119 @@
+# kinogaki-cortex
+
+An **online, count-based, no-backprop, inspectable** model of text — brain-inspired.
+
+Today's language models are one enormous frozen function that has memorized the
+statistics of text. kinogaki-cortex is the opposite: a model that reads the way a
+person does. It learns from every sentence as it arrives, never retrains, never
+forgets, and writes down what it learns as things you can open and read. Thousands
+of tiny predictors each guess the next character from their own vantage point and
+vote; when their agreement lurches, the system carves a boundary and mints a
+concept; concepts stack into higher concepts. The whole mind stays a readable
+file, not a black box.
+
+There is one hard rule across every experiment here: **no gradient descent, no
+backprop, no batch optimization that revisits the data.** Every model is a single
+streaming pass of counters — it sees a piece of text once, updates its counts, and
+predicts by looking them up. That is the property a transformer cannot match: it
+learns online and a sparse update barely touches what it already knew, so it does
+not forget.
+
+This repository is the lab, preserved as rerunnable code. The narrated version —
+question, attempt, the one number that mattered, the honest lesson — lives at
+**[cortex.kinogaki.com](https://cortex.kinogaki.com/)**.
+
+## How we work — the research philosophy
+
+- **We publish the negatives.** A research log that only shows wins is a sales
+  brochure. The raytracing idea that lost to a bigram, the topic cache that helped
+  then hurt, the boundary signal that scored below random — each has a post. A
+  clean negative closes a door, names why, and points at the door worth trying.
+- **We judge an idea on the axis it can win, not the headline metric.** "No better
+  than a bigram" is the *normal* first result of a real idea. Before shelving one,
+  we measure calibration, robustness, generalization, rare-context behavior, and
+  transfer. An idea that ties on top-1 accuracy but cuts perplexity threefold is a
+  win, not a wash.
+- **Online-only — learn while it lives.** Single streaming pass, counters and leaky
+  accumulators only. No retraining, no forgetting.
+- **We nurture fragile ideas 10–20 steps.** The search space is high-dimensional,
+  so wins compound late; we give an idea a budget of ten to twenty real variations
+  before any decision to stop, and a shelved idea goes to a graveyard with a note
+  on the axis it might still win, not the trash. See
+  [research/FRAGILE_IDEAS.md](research/FRAGILE_IDEAS.md).
+
+The through-line that holds across every experiment: **each concept level helps
+predict the level it operates on** — word concepts help characters, phrases and
+topics help words — learned online by counting, combined by a product of expert
+opinions, kept inspectable throughout. The frontier we have not crossed is
+**global coherence**: the model writes fluent local word-salad. The next swings aim
+there.
+
+## The experiments
+
+In order, A through X. "Verdict" is the honest call, negatives included. Each row
+links to its narrated blog post and its code folder. The full lineage — why each
+experiment grew from an earlier one — is in
+[research/PROVENANCE.md](research/PROVENANCE.md).
+
+| code | title | date | verdict / one-line result | post | folder |
+|---|---|---|---|---|---|
+| Exp A | Finding where one word ends | 2026-06-25 | qualified win — branching-entropy recovers word boundaries (F1 0.775); Bayesian surprise scores below random at the char scale | [link](https://cortex.kinogaki.com/boundaries-from-chars/) | [experiments/boundaries-from-chars](experiments/boundaries-from-chars) |
+| Exp B | The counter beat the neural net | 2026-06-25 | win — a plain online counter beat both gradient nets (2.3 vs ~3.5 bpc); became the substrate | [link](https://cortex.kinogaki.com/associative-vs-gradient/) | [experiments/associative-vs-gradient](experiments/associative-vs-gradient) |
+| Exp C | Words that lower the cost of letters | 2026-06-25 | win — word concepts cut char cost 22% (given) / 17% (discovered, no labels) | [link](https://cortex.kinogaki.com/concepts/) | [experiments/concepts](experiments/concepts) |
+| Exp D | When combining the experts made it worse | 2026-06-25 | negative — full 5-expert vote lost to simple char+lexicon mix; char prediction saturates | [link](https://cortex.kinogaki.com/voting/) | [experiments/voting](experiments/voting) |
+| Exp E | The hierarchy pays off at the right altitude | 2026-06-25 | win — measured at the word level, perplexity nearly halved (476→247) | [link](https://cortex.kinogaki.com/word-level-compounding/) | [experiments/word-level-compounding](experiments/word-level-compounding) |
+| Exp F | How big a brain the data wants | 2026-06-25 | win — best capacity grows with the corpus; small saturates, large keeps learning | [link](https://cortex.kinogaki.com/scaling-law/) | [experiments/scaling-law](experiments/scaling-law) |
+| Exp G | Building the dials bits-per-char hides | 2026-06-25 | win — new rulers (overfit, real-word rate, phrase coherence); named the global-coherence frontier | [link](https://cortex.kinogaki.com/the-scorecard/) | [experiments/the-scorecard-g](experiments/the-scorecard-g) |
+| Exp H | Scoring the levels on the new dials | 2026-06-25 | win — word concepts halve the overfit gap (real-word 77%→89%); phrases lift coherence to 82% | [link](https://cortex.kinogaki.com/the-scorecard/) | [experiments/the-scorecard-h](experiments/the-scorecard-h) |
+| Exp I | One part, repeated, wired bigger | 2026-06-25 | win — uniform Column wired wider+deeper improves cost and coherence (81%→94%) | [link](https://cortex.kinogaki.com/one-part-repeated/) | [experiments/one-part-repeated-i](experiments/one-part-repeated-i) |
+| Exp J | The combiner is the hinge | 2026-06-25 | win — calibrated geometric-mean pool fixes overconfidence while keeping fluency | [link](https://cortex.kinogaki.com/one-part-repeated/) | [experiments/one-part-repeated-j](experiments/one-part-repeated-j) |
+| Exp K | The level that reaches past the last few words | 2026-06-25 | clarifying — data is the lever; more fixed local levels saturate (the "deep didn't pay" wall was data starvation) | [link](https://cortex.kinogaki.com/depth-at-scale/) | [experiments/depth-at-scale](experiments/depth-at-scale) |
+| Exp L | Associative attention vs fixed n-grams | 2026-06-25 | predecessor to Exp S — content-based count-attention, the rougher first cut; no blog post | — | [experiments/associative-attention](experiments/associative-attention) |
+| Exp M | Finding phrases the way you'd guess them | 2026-06-26 | mixed — phrases are a clear unsupervised win; topic boundaries real but weak | [link](https://cortex.kinogaki.com/boundaries/) | [experiments/boundaries](experiments/boundaries) |
+| Exp N | More data helps, all the way to a gigabyte | 2026-06-26 | win — cost falls to 822 MB (1.997→1.744); the "deep didn't pay" was a 2 MB artifact | [link](https://cortex.kinogaki.com/gigabyte-and-gpu/) | [experiments/gigabyte-and-gpu-n](experiments/gigabyte-and-gpu-n) |
+| Exp O | Three engines, one answer (incl. GPU) | 2026-06-26 | win — sorted / dense / Metal-GPU columns agree; the GPU makes the gigabyte affordable | [link](https://cortex.kinogaki.com/gigabyte-and-gpu/) | [experiments/gigabyte-and-gpu-o](experiments/gigabyte-and-gpu-o) |
+| Exp P | Meaning is a map, not a road | 2026-06-26 | negative — the meaning-space is real and beautiful but does not predict the next word | [link](https://cortex.kinogaki.com/raytracing/) | [experiments/raytracing](experiments/raytracing) |
+| Exp R | A vote that remembers what it just saw | 2026-06-26 | qualified — fresh vote wins clean; the leaky accumulator wins past 10% noise | [link](https://cortex.kinogaki.com/evidence/) | [experiments/evidence](experiments/evidence) |
+| Exp S | Attention, but counted instead of trained | 2026-06-26 | clear win — count-keyed offset attention cuts perplexity 3x under a bigram, no gradients | [link](https://cortex.kinogaki.com/offset-attention/) | [experiments/offset-attention](experiments/offset-attention) |
+| Exp T | When the whole room agrees on a topic | 2026-06-26 | qualified — topic hurts at the char level, helps words where local context ran out; beats shuffled topic | [link](https://cortex.kinogaki.com/ignition/) | [experiments/ignition](experiments/ignition) |
+| Exp U | Predicting the kind, not the word | 2026-06-26 | qualified — counted-cluster head beats the token head 65.4% vs 6.7%; cannot collapse | [link](https://cortex.kinogaki.com/jepa/) | [experiments/jepa](experiments/jepa) |
+| Exp V | You can't write your signature backwards | 2026-06-26 | clear win — a memory of change transfers to unseen words (+25% vs +114%), runs one direction | [link](https://cortex.kinogaki.com/trajectory-memory/) | [experiments/trajectory-memory](experiments/trajectory-memory) |
+| Exp W | Ray-cortex (offset + graph + topic) | 2026-06-26 | in progress — results pending; slot reserved | — | [experiments/raycortex](experiments/raycortex) |
+| Exp X | The heterogeneous specialized stack | 2026-06-26 | negative — specialization-by-level loses on bpc; the lone win is dynamic routing > static pool (~0.9 bpc) | — | [experiments/heterogeneous-stack](experiments/heterogeneous-stack) |
+
+## Cross-cutting threads
+
+- **The surprise signal climbs the hierarchy.** One branching-entropy signal carves
+  word boundaries (A), phrases (M), a memory of change (V), and a vote that
+  remembers (R).
+- **Saturation is the recurring teacher.** Character prediction saturates, which
+  killed the all-expert vote (D), redirected the win to the word level (E), and
+  explained why more fixed local levels stop paying (K).
+- **Counting replaces trained machinery.** Attention without gradients (S), a JEPA
+  that cannot collapse because it is counted (U), and a meaning-space built by
+  co-occurrence (P) — each rebuilds a neural idea out of counts.
+- **The frontier is global coherence.** Named by the scorecard (G/H); the later
+  swings (S, T, U, V) all aim past the local context toward it.
+
+See [research/PROVENANCE.md](research/PROVENANCE.md) for the full edge-by-edge
+lineage, and [research/LAB_NOTEBOOK.md](research/LAB_NOTEBOOK.md) for the running
+log.
+
+## Layout
+
+```
+experiments/<slug>/   one folder per experiment: run.py, RESULTS.md, README.md
+lib/                  shared modules (corpus, columns, cortex, attention, …)
+data/                 datasets are NOT committed — run data/get-data.sh
+research/             VISION, FRAGILE_IDEAS, PROVENANCE, LAB_NOTEBOOK, and more
+```
+
+## Running
+
+See [SETUP.md](SETUP.md). In short: Python 3.x, `pip install numpy` (MLX optional,
+Apple-Silicon GPU; experiments fall back to numpy), `bash data/get-data.sh`, then
+`python experiments/<slug>/run.py`.
+
+## License
+
+Apache-2.0. Copyright 2026 Kinogaki LLC. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
