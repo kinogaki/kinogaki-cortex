@@ -107,6 +107,22 @@ See [research/PROVENANCE.md](research/PROVENANCE.md) for the full edge-by-edge
 lineage, and [research/LAB_NOTEBOOK.md](research/LAB_NOTEBOOK.md) for the running
 log.
 
+## Scaling studies
+
+Every experiment above was first measured on a few megabytes. We re-ran them all
+at 30–200× the data — half a billion words, three billion characters — to learn
+which verdicts hold when data is no longer the bottleneck. The line was sharp:
+mechanisms that compete with local counts on already-seen prediction **vanish**
+(topic prior +0.34 bits/word → 0.0), and mechanisms that do what counting *can't*
+**hold or grow** (Bayesian-surprise boundaries F1 0.154 → 0.447). The raw batches
+and the dichotomy are in [scaling/](scaling/); the narrated synthesis is the post
+**[What survives scale](https://cortex.kinogaki.com/what-survives-scale/)**.
+
+| study | corpus | what it asks | report |
+|---|---|---|---|
+| Batch 1 — single mechanisms at scale | LM1B (~526 M words / 3.03 B chars) | does each single mechanism keep paying to 500 M–3 B units? | [scaling/REPORT.md](scaling/REPORT.md) · [RESULTS.tsv](scaling/RESULTS.tsv) |
+| Batch 2 — synthesis experiments re-run at scale | LM1B + enwik9 + register files | does each synthesis verdict survive on its own right-axis metric? | [scaling/REPORT2.md](scaling/REPORT2.md) · [RESULTS2.tsv](scaling/RESULTS2.tsv) |
+
 ## Layout
 
 ```
