@@ -18,16 +18,20 @@ predicts by looking them up. That is the property a transformer cannot match: it
 learns online and a sparse update barely touches what it already knew, so it does
 not forget.
 
-This repository is the lab, preserved as rerunnable code. The narrated version —
-question, attempt, the one number that mattered, the honest lesson — lives at
-**[cortex.kinogaki.com](https://cortex.kinogaki.com/)**.
+This repository is the lab, preserved as rerunnable code. The narrated version
+lives at **[cortex.kinogaki.com](https://cortex.kinogaki.com/)**, which is now in
+two layers: the root **[/](https://cortex.kinogaki.com/)** is the living theory —
+one coherent, refined statement of where the work stands, with a changelog of the
+findings that shifted it; the **[/blog/](https://cortex.kinogaki.com/blog/)** is
+the findings journal — every experiment as a dated post (question, attempt, the
+one number that mattered, the honest lesson), newest first.
 
 ## Standing rules
 
 Four rules hold across every experiment. Each is a fact about how a mind works,
 and together they describe the only kind of intelligence we are trying to build:
 one that learns as it lives, on a finite budget, the way a person does. The
-narrated version is the blog's [How we work](https://cortex.kinogaki.com/how-we-work/).
+narrated version is the blog's [How we work](https://cortex.kinogaki.com/blog/how-we-work/).
 
 1. **Online only.** A single streaming pass, learn-while-it-lives. No gradient
    descent, no backprop, no batch optimization that revisits the data — no
