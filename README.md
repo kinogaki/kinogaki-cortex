@@ -22,24 +22,43 @@ This repository is the lab, preserved as rerunnable code. The narrated version �
 question, attempt, the one number that mattered, the honest lesson — lives at
 **[cortex.kinogaki.com](https://cortex.kinogaki.com/)**.
 
-## How we work — the research philosophy
+## Standing rules
 
-- **We publish the negatives.** A research log that only shows wins is a sales
-  brochure. The raytracing idea that lost to a bigram, the topic cache that helped
-  then hurt, the boundary signal that scored below random — each has a post. A
-  clean negative closes a door, names why, and points at the door worth trying.
-- **We judge an idea on the axis it can win, not the headline metric.** "No better
-  than a bigram" is the *normal* first result of a real idea. Before shelving one,
-  we measure calibration, robustness, generalization, rare-context behavior, and
-  transfer. An idea that ties on top-1 accuracy but cuts perplexity threefold is a
-  win, not a wash.
-- **Online-only — learn while it lives.** Single streaming pass, counters and leaky
-  accumulators only. No retraining, no forgetting.
-- **We nurture fragile ideas 10–20 steps.** The search space is high-dimensional,
-  so wins compound late; we give an idea a budget of ten to twenty real variations
-  before any decision to stop, and a shelved idea goes to a graveyard with a note
-  on the axis it might still win, not the trash. See
-  [research/FRAGILE_IDEAS.md](research/FRAGILE_IDEAS.md).
+Four rules hold across every experiment. Each is a fact about how a mind works,
+and together they describe the only kind of intelligence we are trying to build:
+one that learns as it lives, on a finite budget, the way a person does. The
+narrated version is the blog's [How we work](https://cortex.kinogaki.com/how-we-work/).
+
+1. **Online only.** A single streaming pass, learn-while-it-lives. No gradient
+   descent, no backprop, no batch optimization that revisits the data — no
+   k-means, no SVD. Counting, leaky accumulators, and online leader-clustering
+   only. The model learns from every sentence as it arrives and a sparse update
+   barely touches what it already knew, so it does not forget.
+2. **Fragile ideas.** "No better than a bigram" is the *normal* first result of a
+   real idea, not a verdict — the space is high-dimensional, so wins compound
+   late; nurture an idea 10–20 steps before any kill, check the *other* metric
+   dials (a win often hides on calibration, rare-context, or transfer, not the
+   headline), and shelve to a graveyard with a note, not the trash. See
+   [research/FRAGILE_IDEAS.md](research/FRAGILE_IDEAS.md).
+3. **Bounded memory.** The model runs on an explicit memory budget — no unlimited
+   counts. Like a mind in the real world it copes through generalization, sleep
+   cycles (offline consolidation), and using the environment as external memory.
+   This re-elevates the mechanisms that "vanished" at unbounded scale: under a
+   budget they are how a bounded model approximates the unbounded one. See
+   [research/MEMORY_CONSTRAINT.md](research/MEMORY_CONSTRAINT.md).
+4. **Human cognition is the guiding model.** Human intelligence, flaws included, is
+   the existence proof of general intelligence under exactly our constraints, so we
+   follow it — System 1 vs System 2, working memory, metacognition — and treat
+   biases as adaptive features, not bugs. Everything built so far is System 1
+   (fast, associative); a count-native System 2 (slow, serial, working-memory-bound,
+   deliberate) is now a primary direction. See
+   [research/COGNITION_AS_GUIDE.md](research/COGNITION_AS_GUIDE.md).
+
+And one practice that follows from the first rule: **we publish the negatives.** A
+research log that only shows wins is a sales brochure. The raytracing idea that
+lost to a bigram, the topic cache that helped then hurt, the boundary signal that
+scored below random — each has a post. A clean negative closes a door, names why,
+and points at the door worth trying.
 
 The through-line that holds across every experiment: **each concept level helps
 predict the level it operates on** — word concepts help characters, phrases and
